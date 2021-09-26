@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { connectDB } from './db/connect';
 import MasterRouter from './routes/route';
-
+import path from 'path';
 
 const app = express();
 

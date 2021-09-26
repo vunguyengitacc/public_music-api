@@ -1,7 +1,7 @@
 import express from 'express';
 import checkToken from 'middlewares/token.middleware';
 import authController from './auth.controller';
-import passport from 'passport';
+
 const AuthRouter = express.Router();
 AuthRouter.route('/test').get(function () {
   console.log(1);
