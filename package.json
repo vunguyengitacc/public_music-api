@@ -1,0 +1,32 @@
+{
+  "name": "music-app-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/server",
+    "dev": "nodemon --exec babel-node src/server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.4",
+    "@babel/preset-env": "^7.15.6",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.7",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "nodemon": "^2.0.13",
+    "path": "^0.12.7"
+  }
+}
