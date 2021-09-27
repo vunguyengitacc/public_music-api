@@ -1,18 +1,25 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema } from "mongoose";
 
 const CategoryScheme = new Schema(
-    {
-
+  {
+    name: String,
+    imageUrl: String,
+  },
+  {
+    toJSON: {
+      virtuals: true,
+      versionKey: false,
     },
-    {
-        toJSON: {
-            virtuals: true,
-            versionKey: false,
-        },
-        timestamps: true,
-    }
-)
+    timestamps: true,
+  }
+);
 
-const Category = model('singers', CategoryScheme);
+CategoryScheme.virtual("songs", {
+  ref: "songs",
+  localField: "songId",
+  foreignField: "_id",
+});
+
+const Category = model("categories", CategoryScheme);
 
 export default Category;

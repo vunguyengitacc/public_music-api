@@ -1,18 +1,26 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema } from "mongoose";
 
 const SingerScheme = new Schema(
-    {
-
+  {
+    name: String,
+    imageUrl: String,
+    songId: [{ type: Schema.Types.ObjectId, ref: "songs" }],
+  },
+  {
+    toJSON: {
+      virtuals: true,
+      versionKey: false,
     },
-    {
-        toJSON: {
-            virtuals: true,
-            versionKey: false,
-        },
-        timestamps: true,
-    }
-)
+    timestamps: true,
+  }
+);
 
-const Singer = model('singers', SingerScheme);
+SingerScheme.virtual("songs", {
+  ref: "songs",
+  localField: "songId",
+  foreignField: "_id",
+});
+
+const Singer = model("singers", SingerScheme);
 
 export default Singer;
