@@ -12,7 +12,7 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
   try {
-    const albumId = req.params;
+    const { albumId } = req.params;
     const albums = await Album.findById(albumId)
       .populate("songs")
       .populate("main-song")
@@ -33,10 +33,24 @@ const create = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    const data = { ...req.body };
+    const { albumId } = req.params;
+    const updatedAlbum = await Album.findOneAndUpdate({ _id: albumId }, data, {
+      new: true,
+    });
+    return Result.success(res, { updatedAlbum });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const albumController = {
   getAll,
   getOne,
   create,
+  update,
 };
 
 export default albumController;

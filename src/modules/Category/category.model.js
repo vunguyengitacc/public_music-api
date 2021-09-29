@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 const CategoryScheme = new Schema(
   {
-    name: String,
+    name: { type: String, unique: true },
     imageUrl: String,
     songId: [{ type: Schema.Types.ObjectId, ref: "songs" }],
   },

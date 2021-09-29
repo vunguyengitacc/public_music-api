@@ -1,4 +1,5 @@
 import Result from "../../helpers/result.helper";
+import Category from "../Category/category.model";
 import Singer from "../Singer/singer.model";
 import Song from "./song.model";
 
@@ -16,7 +17,7 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
   try {
-    const songId = req.params;
+    const { songId } = req.params;
     const song = await Song.findById(songId)
       .populate("singer")
       .populate("categories")
@@ -33,6 +34,10 @@ const create = async (req, res, next) => {
     const newSong = await Song.create(data);
     await Singer.findOneAndUpdate(
       { _id: data.singerId },
+      { $push: { songId: newSong._id } }
+    );
+    await Category.findOneAndUpdate(
+      { _id: data.categoryId },
       { $push: { songId: newSong._id } }
     );
     return Result.success(res, { newSong });

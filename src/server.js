@@ -24,12 +24,12 @@ app.use(express.urlencoded({ extended: true }));
 
 MasterRouter(app);
 
-const port = process.env.PORT || 7080;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
 
-server.listen(7000, () => {
+server.listen(8001, () => {
   console.log("listening on *:8001");
 });

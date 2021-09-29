@@ -4,7 +4,7 @@ const SongScheme = new Schema(
   {
     name: String,
     singerId: { type: Schema.Types.ObjectId, ref: "singers" },
-    cateoryId: { type: Schema.Types.ObjectId, ref: "categories" },
+    categoryId: { type: Schema.Types.ObjectId, ref: "categories" },
     lyrics: String,
     time: Number,
     imageUrl: String,
