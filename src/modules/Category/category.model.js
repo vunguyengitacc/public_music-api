@@ -4,6 +4,7 @@ const CategoryScheme = new Schema(
   {
     name: String,
     imageUrl: String,
+    songId: [{ type: Schema.Types.ObjectId, ref: "songs" }],
   },
   {
     toJSON: {

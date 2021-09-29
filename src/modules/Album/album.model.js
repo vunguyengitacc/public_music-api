@@ -17,23 +17,23 @@ const AlbumScheme = new Schema(
   }
 );
 
-// AlbumScheme.virtual("mainSong", {
-//   ref: "songs",
-//   localField: "mainSongId",
-//   foreignField: "_id",
-// });
-
-// AlbumScheme.virtual("songs", {
-//   ref: "songs",
-//   localField: "songId",
-//   foreignField: "_id",
-// });
-
-AlbumScheme.virtual("album-detail", {
-  ref: "album-details",
-  localField: "_id",
-  foreignField: "albumId",
+AlbumScheme.virtual("mainSong", {
+  ref: "songs",
+  localField: "mainSongId",
+  foreignField: "_id",
 });
+
+AlbumScheme.virtual("songs", {
+  ref: "songs",
+  localField: "songId",
+  foreignField: "_id",
+});
+
+// AlbumScheme.virtual("album-details", {
+//   ref: "album-details",
+//   localField: "_id",
+//   foreignField: "albumId",
+// });
 
 const Album = model("albums", AlbumScheme);
 
