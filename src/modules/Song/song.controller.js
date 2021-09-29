@@ -1,4 +1,5 @@
 import Result from "../../helpers/result.helper";
+import Singer from "../Singer/singer.model";
 import Song from "./song.model";
 
 const getAll = async (req, res, next) => {
@@ -7,7 +8,7 @@ const getAll = async (req, res, next) => {
       .populate("singer")
       .populate("categories")
       .lean();
-    return Result(res, { songs });
+    return Result.success(res, { songs });
   } catch (err) {
     next(err);
   }
@@ -20,7 +21,7 @@ const getOne = async (req, res, next) => {
       .populate("singer")
       .populate("categories")
       .lean();
-    return Result(res, { song });
+    return Result.success(res, { song });
   } catch (err) {
     next(err);
   }
@@ -30,7 +31,11 @@ const create = async (req, res, next) => {
   try {
     const data = { ...req.body };
     const newSong = await Song.create(data);
-    return Result(res, { newSong });
+    await Singer.findOneAndUpdate(
+      { _id: data.singerId },
+      { $push: { songId: newSong._id } }
+    );
+    return Result.success(res, { newSong });
   } catch (err) {
     next(err);
   }
