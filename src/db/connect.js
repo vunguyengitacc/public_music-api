@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 export const connectDB = async () => {
   try {
@@ -8,8 +8,8 @@ export const connectDB = async () => {
       useCreateIndex: true,
       useFindAndModify: false,
     });
-    console.log('Mongoose is connected!!!');
+    console.log("Mongoose is connected!!!");
   } catch (error) {
-    console.log('Connect failure!!!');
+    console.log("Connect failure!!!");
   }
 };

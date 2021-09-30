@@ -3,7 +3,7 @@ import Singer from "./singer.model";
 
 const getAll = async (req, res, next) => {
   try {
-    const singers = await Singer.find().lean();
+    const singers = await Singer.find().populate("songs").lean();
     return Result.success(res, { singers });
   } catch (err) {
     next(err);

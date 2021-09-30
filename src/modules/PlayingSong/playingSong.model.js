@@ -6,7 +6,6 @@ const PlayingSongScheme = new Schema(
     songId: { type: Schema.Types.ObjectId, ref: "songs" },
     startTime: Number,
     finishTime: Number,
-    mainSong: Boolean,
   },
   {
     toJSON: {
