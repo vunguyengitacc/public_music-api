@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import Result from 'helpers/result.helper';
-import { createAccessToken } from 'helpers/token.helper';
-import Usẻ from '../User/user.model'
+import bcrypt from "bcrypt";
+import Result from "helpers/result.helper";
+import { createAccessToken } from "helpers/token.helper";
+import User from "../User/user.model";
 
 const getMe = async (req, res, next) => {
   try {
@@ -14,16 +14,22 @@ const getMe = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { account, password } = req.body;
-    const user = await User.findOne({ $or: [{ email: account }, { username: account }] }).select('+password');
+    const user = await User.findOne({
+      $or: [{ email: account }, { username: account }],
+    }).select("+password");
     if (!user) {
-      return Result.error(res, { message: 'Email does not exist' }, 401);
+      return Result.error(res, { message: "Email does not exist" }, 401);
     }
     if (!user.password) {
-      return Result.error(res, { message: 'Please login using github with this account' }, 401);
+      return Result.error(
+        res,
+        { message: "Please login using github with this account" },
+        401
+      );
     }
     const comparePassword = await bcrypt.compare(password, user.password);
     if (!comparePassword) {
-      return Result.error(res, { message: 'Wrong password' }, 401);
+      return Result.error(res, { message: "Wrong password" }, 401);
     }
     const access_token = createAccessToken(user);
     Result.success(res, { access_token }, 201);
@@ -37,11 +43,11 @@ const register = async (req, res, next) => {
     const { fullname, username, email, password } = req.body;
     const checkUsername = await User.find({ username }).countDocuments();
     if (checkUsername) {
-      return Result.error(res, { message: 'Username này đã được sử dụng' });
+      return Result.error(res, { message: "Username này đã được sử dụng" });
     }
     const checkEmail = await User.find({ email }).countDocuments();
     if (checkEmail) {
-      return Result.error(res, { message: 'Email này đã được sử dụng' });
+      return Result.error(res, { message: "Email này đã được sử dụng" });
     }
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -58,7 +64,6 @@ const register = async (req, res, next) => {
     return next(error);
   }
 };
-
 
 const authController = { login, register, getMe };
 export default authController;
