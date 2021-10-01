@@ -37,9 +37,9 @@ https://api-musics.herokuapp.com
 
 4. Cập nhật thông tin album
 
->PUT /api/songs/(albumId)
+>PUT /api/albums/(albumId)
 
 5. Thêm 1 bài hát mới vào album
 
->PATCH /api/songs/(albumId)
+>PATCH /api/albums/(albumId)
 
