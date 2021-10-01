@@ -12,7 +12,7 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
   try {
-    const singerId = req.params;
+    const { singerId } = req.params;
     const singer = await Singer.findById(singerId).populate("songs").lean();
     return Result.success(res, { singer });
   } catch (err) {

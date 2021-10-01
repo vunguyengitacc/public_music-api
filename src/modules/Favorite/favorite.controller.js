@@ -79,7 +79,6 @@ const removeSong = async (req, res, next) => {
       });
     }
     favorite.songId = favorite.songId.filter((i) => !i.equals(song._id));
-
     const updatedFavorite = await Favorite.findOneAndUpdate(
       { _id: favorite._id },
       favorite,
