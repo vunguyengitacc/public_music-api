@@ -8,7 +8,7 @@ const getAll = async (req, res, next) => {
   try {
     const songs = await Song.find()
       .populate("singer")
-      .populate("categories")
+      .populate("category")
       .lean();
     return Result.success(res, { songs });
   } catch (err) {
@@ -21,7 +21,7 @@ const getOne = async (req, res, next) => {
     const { songId } = req.params;
     const song = await Song.findById(songId)
       .populate("singer")
-      .populate("categories")
+      .populate("category")
       .lean();
     return Result.success(res, { song });
   } catch (err) {
@@ -63,6 +63,10 @@ const deleteOne = async (req, res, next) => {
     await Album.findOneAndUpdate(
       { songId: song._id },
       { $pull: { songId: song._id } }
+    );
+    await Album.findOneAndUpdate(
+      { mainSongId: song._id },
+      { mainSongId: null }
     );
     return Result.success(res, { song });
   } catch (err) {
