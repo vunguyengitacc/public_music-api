@@ -34,6 +34,7 @@ AlbumScheme.virtual("songs", {
 //   localField: "_id",
 //   foreignField: "albumId",
 // });
+AlbumScheme.index({ name: "text" });
 
 const Album = model("albums", AlbumScheme);
 

@@ -21,6 +21,8 @@ CategoryScheme.virtual("songs", {
   foreignField: "_id",
 });
 
+CategoryScheme.index({ name: "text" });
+
 const Category = model("categories", CategoryScheme);
 
 export default Category;
