@@ -3,6 +3,32 @@
 https://api-musics.herokuapp.com
 
 ***
+
+## Auth api 
+
+1. Đăng nhập
+
+>POST /api/auth/login
+
+    account: String
+    
+    password: String
+
+
+2 Đăng kí
+
+>POST /api/auth/register
+
+    fullname: String
+    
+    username: String
+    
+    email: String
+    
+    password: String
+
+
+
 ## Song api
 
 1. Tất cả bài hát
@@ -12,6 +38,22 @@ https://api-musics.herokuapp.com
 2. Tạo bài hát mới
 
 >POST /api/songs
+
+    name: String
+    
+    singerId: { type: Schema.Types.ObjectId, ref: "singers" }
+    
+    categoryId: { type: Schema.Types.ObjectId, ref: "categories" }
+    
+    lyrics: String,
+    
+    time: Number
+    
+    imageUrl: String
+    
+    releaseDate: Date
+    
+    songUrl: String
 
 3. Lấy bài hát theo id
 
@@ -31,6 +73,16 @@ https://api-musics.herokuapp.com
 
 >POST /api/albums
 
+    name: String,
+    
+    imageUrl: String,
+    
+    releaseDate: Date,
+    
+    songId: [{ type: Schema.Types.ObjectId, ref: "songs" }],
+    
+    mainSongId: { type: Schema.Types.ObjectId, ref: "songs" },
+
 3. Lấy Album theo id
 
 >GET /api/albums/(albumId)
@@ -43,3 +95,66 @@ https://api-musics.herokuapp.com
 
 >PATCH /api/albums/(albumId)
 
+## Favorite api(Cần đăng nhập-token)
+
+1. Lấy danh sách yêu thích
+
+>GET /api/favorites/me
+
+2. Thêm bài hát vào danh sách yêu thích
+
+>POST /api/favorites/me/(songId)
+
+3. Xoá bài hát khỏi danh sách yêu thích
+
+>DELETE /api/favorites/me/(songId)
+
+## Singer api
+
+1. Tất cả ca sĩ
+
+>GET /api/singers
+
+2. Tạo ca sĩ mới
+
+>POST /api/singers
+    
+    name: String
+    
+    imageUrl: String
+    
+    songId: [{ type: Schema.Types.ObjectId, ref: "songs" }]
+
+3. Lấy ca sĩ theo id
+
+>GET /api/singers/(songId)
+
+4. Xóa bài hát
+
+>DELETE /api/songs/(songId)
+
+## Category api
+
+1. Tất cả thể loại
+
+>GET /api/categories
+
+2. Tạo thể loại mới
+
+>POST /api/categories
+
+    name: { type: String, unique: true }
+    
+    imageUrl: String
+    
+    songId: [{ type: Schema.Types.ObjectId, ref: "songs" }]
+    
+
+3. Lấy thể loại theo id
+
+>GET /api/categories/(categoryId)
+
+
+## Search api
+
+>GET /api/search?q=(search term)
