@@ -4,6 +4,24 @@ https://api-musics.herokuapp.com
 
 ***
 
+### Mục lục
+
+1.[Auth api](#Auth-api)
+
+2.[Song api](#Song-api)
+
+3.[Album api](#Album-api)
+
+4.[Favorite api](#Favorite-api)
+
+5.[Singer api](#Singer-api)
+
+6.[Category api](#Category-api)
+
+7.[Search api](#Search-api)
+
+***
+
 ## Auth api 
 
 1. Đăng nhập
@@ -15,7 +33,7 @@ https://api-musics.herokuapp.com
     password: String
 
 
-2 Đăng kí
+2. Đăng kí
 
 >POST /api/auth/register
 
@@ -158,3 +176,5 @@ https://api-musics.herokuapp.com
 ## Search api
 
 >GET /api/search?q=(search term)
+
+Bao gồm cả search songs, singers, albums, categories
