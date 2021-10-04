@@ -9,9 +9,6 @@ import MasterRouter from "./routes/route";
 import path from "path";
 
 const app = express();
-
-const server = http.createServer(app);
-
 dotenv.config();
 connectDB();
 
@@ -28,8 +25,4 @@ const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
-});
-
-server.listen(8001, () => {
-  console.log("listening on *:8001");
 });
