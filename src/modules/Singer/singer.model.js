@@ -21,6 +21,7 @@ SingerScheme.virtual("songs", {
   foreignField: "_id",
 });
 
-const Singer = model("singers", SingerScheme);
+SingerScheme.index({ name: "text" });
 
+const Singer = model("singers", SingerScheme);
 export default Singer;

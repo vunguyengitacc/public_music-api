@@ -2,10 +2,10 @@ import { model, Schema } from "mongoose";
 
 const SongScheme = new Schema(
   {
-    name: String,
+    name: { type: String },
     singerId: { type: Schema.Types.ObjectId, ref: "singers" },
     categoryId: { type: Schema.Types.ObjectId, ref: "categories" },
-    lyrics: String,
+    lyrics: { type: String },
     time: Number,
     imageUrl: String,
     releaseDate: Date,
@@ -33,6 +33,8 @@ SongScheme.virtual("category", {
   foreignField: "_id",
   justOne: true,
 });
+
+SongScheme.index({ name: "text", lyrics: "text" });
 
 const Song = model("songs", SongScheme);
 
