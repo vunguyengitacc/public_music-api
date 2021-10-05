@@ -45,6 +45,11 @@ https://api-musics.herokuapp.com
     
     password: String
 
+3. Lấy thông tin tài khoản đã đăng nhập
+
+>GET /api/auth/getMe
+
+Set 1 field header: "authorization": "Bearer (gắn access token vô)"
 
 
 ## Song api
@@ -81,7 +86,8 @@ https://api-musics.herokuapp.com
 
 >DELETE /api/songs/(songId)
 
-***
+
+
 ## Album api
 1. Tất cả album
 
@@ -114,6 +120,9 @@ https://api-musics.herokuapp.com
 >PATCH /api/albums/(albumId)
 
 ## Favorite api(Cần đăng nhập-token)
+
+
+Set 1 field header: "authorization": "Bearer (gắn access token vô)"
 
 1. Lấy danh sách yêu thích
 
