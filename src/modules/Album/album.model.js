@@ -21,6 +21,7 @@ AlbumScheme.virtual("mainSong", {
   ref: "songs",
   localField: "mainSongId",
   foreignField: "_id",
+  justOne: true,
 });
 
 AlbumScheme.virtual("songs", {

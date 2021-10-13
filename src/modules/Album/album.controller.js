@@ -16,7 +16,14 @@ const getOne = async (req, res, next) => {
     const { albumId } = req.params;
     const albums = await Album.findById(albumId)
       .populate("mainSong")
-      .populate("songs")
+      .populate({
+        path: "songs",
+        model: "Song",
+        populate: {
+          path: "singer",
+          model: "Singer",
+        },
+      })
       .lean();
     return Result.success(res, { albums });
   } catch (err) {
