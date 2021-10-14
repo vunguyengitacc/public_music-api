@@ -1,12 +1,14 @@
-import bcrypt from 'bcrypt';
-import Result from '../../helpers/result.helper';
-import User from '../User/user.model';
+import bcrypt from "bcrypt";
+import Result from "../../helpers/result.helper";
+import User from "../User/user.model";
 
 const getAll = async (req, res, next) => {
   try {
     const { search } = req.query;
     if (req.query.search) {
-      const users = await User.find({ $or: [{ email: search }, { username: search }] });
+      const users = await User.find({
+        $or: [{ email: search }, { username: search }],
+      });
       return Result.success(res, { users }, 201);
     }
     const users = await User.find({});
@@ -18,18 +20,18 @@ const getAll = async (req, res, next) => {
 
 const updateInfo = async (req, res, next) => {
   try {
-    const { fullname, email, bio } = req.body;
+    const { fullname, email } = req.body;
     if (email === req.user.email) {
-      await User.updateOne({ _id: req.user.id }, { $set: { fullname, bio } });
+      await User.updateOne({ _id: req.user.id }, { $set: { fullname } });
       const userUpdated = await User.findById(req.user.id);
       Result.success(res, { currentUser: userUpdated }, 201);
       return;
     }
     const checkEmail = await User.find({ email }).countDocuments();
     if (checkEmail) {
-      return Result.error(res, { message: 'This email has been used' });
+      return Result.error(res, { message: "This email has been used" });
     }
-    await User.updateOne({ _id: req.user.id }, { $set: { fullname, email, bio } });
+    await User.updateOne({ _id: req.user.id }, { $set: { fullname, email } });
     const userUpdated = await User.findById(req.user.id);
     Result.success(res, { currentUser: userUpdated }, 201);
   } catch (error) {
@@ -39,14 +41,21 @@ const updateInfo = async (req, res, next) => {
 const updatePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;
-    const comparePassword = await bcrypt.compare(currentPassword, req.user.password);
+    console.log(req.user.password);
+    const comparePassword = await bcrypt.compare(
+      currentPassword,
+      req.user.password
+    );
     if (!comparePassword) {
-      return Result.error(res, { message: 'Current password is wrong' }, 401);
+      return Result.error(res, { message: "Current password is wrong" }, 401);
     }
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-    await User.updateOne({ _id: req.user.id }, { $set: { password: hashedPassword } });
-    Result.success(res, { status: 'Password updated successfully' }, 201);
+    await User.updateOne(
+      { _id: req.user.id },
+      { $set: { password: hashedPassword } }
+    );
+    Result.success(res, { status: "Password updated successfully" }, 201);
   } catch (error) {
     return next(error);
   }
@@ -71,5 +80,11 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-const userController = { getAll, updateInfo, updatePassword, updateAvatar, deleteUser };
+const userController = {
+  getAll,
+  updateInfo,
+  updatePassword,
+  updateAvatar,
+  deleteUser,
+};
 export default userController;
