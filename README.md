@@ -20,6 +20,8 @@ https://api-musics.herokuapp.com
 
 7.[Search api](#Search-api)
 
+8.[User api](#User-api)
+
 ***
 
 ## Auth api 
@@ -187,3 +189,33 @@ Set 1 field header: "authorization": "Bearer (gắn access token vô)"
 >GET /api/search?q=(search term)
 
 Bao gồm cả search songs, singers, albums, categories
+
+## User api (Cần token)
+
+1. Cập nhật thông tin user
+
+>PUT /api/user/:userId
+
+>Request body:
+
+    fullname: String
+    
+    email: String
+
+2. Đổi mật khẩu
+
+>PUT /api/user/:userId/change-password
+
+>Request body:
+
+    currentPassword: String
+    
+    newPassword: String
+        
+3. Đổi avatar
+
+>PUT /api/user/:userId/change-avatar
+
+>Request body: 
+    
+    profilePictureUrl: String
