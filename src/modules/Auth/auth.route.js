@@ -1,13 +1,19 @@
-import express from 'express';
-import checkToken from 'middlewares/token.middleware';
-import authController from './auth.controller';
+import express from "express";
+import checkToken from "middlewares/token.middleware";
+import { validateBody } from "../../middlewares/validate.middleware";
+import authController from "./auth.controller";
+import { loginSchema, registerSchema } from "./auth.validate";
 
 const AuthRouter = express.Router();
-AuthRouter.route('/test').get(function () {
-  console.log(1);
-});
-AuthRouter.route('/getMe').get(checkToken, authController.getMe);
-AuthRouter.route('/login').post(authController.login);
-AuthRouter.route('/register').post(authController.register);
+
+AuthRouter.route("/getMe").get(checkToken, authController.getMe);
+AuthRouter.route("/login").post(
+  validateBody(loginSchema),
+  authController.login
+);
+AuthRouter.route("/register").post(
+  validateBody(registerSchema),
+  authController.register
+);
 
 export default AuthRouter;

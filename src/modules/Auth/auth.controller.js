@@ -20,13 +20,6 @@ const login = async (req, res, next) => {
     if (!user) {
       return Result.error(res, { message: "Email does not exist" }, 401);
     }
-    if (!user.password) {
-      return Result.error(
-        res,
-        { message: "Please login using github with this account" },
-        401
-      );
-    }
     const comparePassword = await bcrypt.compare(password, user.password);
     if (!comparePassword) {
       return Result.error(res, { message: "Wrong password" }, 401);
@@ -43,11 +36,11 @@ const register = async (req, res, next) => {
     const { fullname, username, email, password } = req.body;
     const checkUsername = await User.find({ username }).countDocuments();
     if (checkUsername) {
-      return Result.error(res, { message: "Username này đã được sử dụng" });
+      return Result.error(res, { message: "This username is already in use" });
     }
     const checkEmail = await User.find({ email }).countDocuments();
     if (checkEmail) {
-      return Result.error(res, { message: "Email này đã được sử dụng" });
+      return Result.error(res, { message: "This email is already in use" });
     }
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
