@@ -7,15 +7,11 @@ import Song from "../Song/song.model";
 const searchFullText = async (req, res, next) => {
   try {
     const { q } = req.query;
-    const songs = await Song.aggregate([{ $match: { $text: { $search: q } } }]);
-    const categories = await Category.aggregate([
-      { $match: { $text: { $search: q } } },
-    ]);
-    const singers = await Singer.aggregate([
-      { $match: { $text: { $search: q } } },
-    ]);
-    const albums = await Album.aggregate([
-      { $match: { $text: { $search: q } } },
+    const [songs, categories, singers, albums] = await Promise.all([
+      Song.aggregate([{ $match: { $text: { $search: q } } }]),
+      Category.aggregate([{ $match: { $text: { $search: q } } }]),
+      Singer.aggregate([{ $match: { $text: { $search: q } } }]),
+      Album.aggregate([{ $match: { $text: { $search: q } } }]),
     ]);
     return Result.success(res, { songs, singers, albums, categories });
   } catch (err) {
