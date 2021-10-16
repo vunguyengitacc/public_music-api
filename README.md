@@ -6,21 +6,21 @@ https://api-musics.herokuapp.com
 
 ### Mục lục
 
-1.[Auth api](#Auth-api)
+1.[ Auth api](#Auth-api)
 
-2.[Song api](#Song-api)
+2.[ Song api](#Song-api)
 
-3.[Album api](#Album-api)
+3.[ Album api](#Album-api)
 
-4.[Favorite api](#Favorite-api)
+4.[ Favorite api](#Favorite-api)
 
-5.[Singer api](#Singer-api)
+5.[ Singer api](#Singer-api)
 
-6.[Category api](#Category-api)
+6.[ Category api](#Category-api)
 
-7.[Search api](#Search-api)
+7.[ Search api](#Search-api)
 
-8.[User api](#User-api)
+8.[ User api](#User-api)
 
 ***
 
@@ -137,6 +137,10 @@ Set 1 field header: "authorization": "Bearer (gắn access token vô)"
 3. Xoá bài hát khỏi danh sách yêu thích
 
 >DELETE /api/favorites/me/(songId)
+
+4. Kiểm tra nếu bài hát có tồn tại trong danh sách yêu thích
+
+>GET /api/favorites/me/(songId)
 
 ## Singer api
 
