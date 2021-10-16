@@ -28,13 +28,13 @@ const addSong = async (req, res, next) => {
       favorite = await Favorite.create({ userId, songId: [] });
     const song = await Song.findById(songId).lean();
     if (song == null)
-      return Result.error(res, { message: "Bài hát không tồn tại" });
+      return Result.error(res, { message: "This song is invalid" });
     if (favorite.songId != null && favorite.songId.length > 0) {
       console.log(favorite.songId);
       const checkInFavorite = favorite.songId.some((i) => i.equals(song._id));
       if (checkInFavorite)
         return Result.error(res, {
-          message: "Bài hát đã tồn tại trong danh sách yêu thích",
+          message: "This song has already in your favorites list",
         });
     } else favorite.songId = [];
     favorite.songId.push(song._id);
@@ -60,22 +60,22 @@ const removeSong = async (req, res, next) => {
     if (favorite == null || favorite.length == 0) {
       favorite = await Favorite.create({ userId, songId: [] });
       return Result.error(res, {
-        message: "Bài hát không tồn tại trong danh sách yêu thích",
+        message: "This song is not existed in your favorites list",
       });
     }
     const song = await Song.findById(songId).lean();
     if (song == null)
-      return Result.error(res, { message: "Bài hát không tồn tại" });
+      return Result.error(res, { message: "This song is invalid" });
     if (favorite.songId != null && favorite.songId.length > 0) {
       const checkInFavorite = favorite.songId.some((i) => i.equals(song._id));
       if (!checkInFavorite)
         return Result.error(res, {
-          message: "Bài hát không tồn tại trong danh sách yêu thích",
+          message: "This song is not existed in your favorites list",
         });
     } else {
       favorite.songId = [];
       return Result.error(res, {
-        message: "Bài hát không tồn tại trong danh sách yêu thích",
+        message: "This song is not existed in your favorites list",
       });
     }
     favorite.songId = favorite.songId.filter((i) => !i.equals(song._id));
@@ -90,7 +90,23 @@ const removeSong = async (req, res, next) => {
   }
 };
 
+const checkIfExist = async (req, res, next) => {
+  try {
+    const { songId } = req.params;
+    const userId = req.user._id;
+    const checker = await Favorite.find({
+      userId,
+      songId: { $in: [songId] },
+    }).count();
+    if (checker > 0) return Result.success(res, { message: true });
+    else return Result.success(res, { message: false });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const favoriteController = {
+  checkIfExist,
   getMyFavorite,
   addSong,
   removeSong,

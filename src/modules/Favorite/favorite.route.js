@@ -4,6 +4,7 @@ const FavoriteRouter = express.Router();
 
 FavoriteRouter.route("/me").get(favoriteController.getMyFavorite);
 FavoriteRouter.route("/me/:songId")
+  .get(favoriteController.checkIfExist)
   .post(favoriteController.addSong)
   .delete(favoriteController.removeSong);
 
