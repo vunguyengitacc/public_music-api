@@ -5,7 +5,7 @@ import Favorite from "./favorite.model";
 const getMyFavorite = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    let favorite = await Favorite.find({ userId })
+    let favorite = await Favorite.findOne({ userId })
       .populate("user")
       .populate("songs")
       .lean();
