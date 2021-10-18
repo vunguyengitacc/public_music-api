@@ -7,7 +7,14 @@ const getMyFavorite = async (req, res, next) => {
     const userId = req.user._id;
     let favorite = await Favorite.findOne({ userId })
       .populate("user")
-      .populate("songs")
+      .populate({
+        path: "songs",
+        model: "Song",
+        populate: {
+          path: "singer",
+          model: "Singer",
+        },
+      })
       .lean();
     if (favorite.length == 0) favorite = await Favorite.create({ userId });
     return Result.success(res, { favorite });
