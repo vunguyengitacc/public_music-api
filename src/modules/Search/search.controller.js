@@ -6,8 +6,24 @@ const searchFullText = async (req, res, next) => {
   try {
     const { q } = req.query;
     const [songs, albums] = await Promise.all([
-      Song.aggregate([{ $match: { $text: { $search: q } } }]),
-      Album.aggregate([{ $match: { $text: { $search: q } } }]),
+      Song.aggregate([
+        {
+          $match: {
+            $text: { $search: q, $caseSensitive: false },
+          },
+        },
+        {
+          $sort: { score: { $meta: "textScore" } },
+        },
+      ]),
+      Album.aggregate([
+        {
+          $match: { $text: { $search: q, $caseSensitive: false } },
+        },
+        {
+          $sort: { score: { $meta: "textScore" } },
+        },
+      ]),
     ]);
     return Result.success(res, { songs, albums });
   } catch (err) {
