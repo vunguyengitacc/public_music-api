@@ -5,11 +5,11 @@ import Song from "../Song/song.model";
 const searchFullText = async (req, res, next) => {
   try {
     const { q } = req.query;
-    const [songs, categories, singers, albums] = await Promise.all([
+    const [songs, albums] = await Promise.all([
       Song.aggregate([{ $match: { $text: { $search: q } } }]),
       Album.aggregate([{ $match: { $text: { $search: q } } }]),
     ]);
-    return Result.success(res, { songs, singers, albums, categories });
+    return Result.success(res, { songs, albums });
   } catch (err) {
     next(err);
   }
