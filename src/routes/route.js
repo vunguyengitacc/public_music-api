@@ -11,12 +11,12 @@ import UserRouter from "../modules/User/user.route";
 const MasterRouter = (app) => {
   app.use("/api/user", checkToken, UserRouter);
   app.use("/api/auth", AuthRouter);
-  app.use("/api/albums", AlbumRouter);
-  app.use("/api/singers", SingerRouter);
-  app.use("/api/categories", CategoryRouter);
-  app.use("/api/songs", SongRouter);
+  app.use("/api/albums", checkToken, AlbumRouter);
+  app.use("/api/singers", checkToken, SingerRouter);
+  app.use("/api/categories", checkToken, CategoryRouter);
+  app.use("/api/songs", checkToken, SongRouter);
   app.use("/api/favorites", checkToken, FavoriteRouter);
-  app.use("/api/search", SearchRouter);
+  app.use("/api/search", checkToken, SearchRouter);
 };
 
 export default MasterRouter;
