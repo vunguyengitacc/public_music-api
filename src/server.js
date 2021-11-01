@@ -25,7 +25,7 @@ const port = process.env.PORT || 8080;
 
 app.use(function (err, req, res, next) {
   console.log(err.stack);
-  return Result.error(res, { message: "Internal Server Error" }, 500);
+  return Result.error(res, { message: err.message }, 500);
 });
 
 app.listen(port, () => {
