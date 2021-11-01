@@ -15,6 +15,17 @@ const searchFullText = async (req, res, next) => {
         {
           $sort: { score: { $meta: "textScore" } },
         },
+        { $limit: 5 },
+        {
+          $lookup: {
+            from: "singers",
+            localField: "singerId",
+            foreignField: "_id",
+            as: "singerName",
+          },
+        },
+        { $addFields: { singerName: "$singerName.name" } },
+        { $unwind: "$singerName" },
       ]),
       Album.aggregate([
         {
@@ -23,6 +34,7 @@ const searchFullText = async (req, res, next) => {
         {
           $sort: { score: { $meta: "textScore" } },
         },
+        { $limit: 5 },
       ]),
     ]);
     return Result.success(res, { songs, albums });
