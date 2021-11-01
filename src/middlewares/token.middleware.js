@@ -14,7 +14,7 @@ const checkToken = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    return next(error);
+    return Result.error(res, { message: "Invalid Token" }, 403);
   }
 };
 export default checkToken;
