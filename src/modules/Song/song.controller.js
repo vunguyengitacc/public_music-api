@@ -15,9 +15,9 @@ const getAll = async (req, res, next) => {
 
     const favorite = await Favorite.findOne({ userId }).lean();
     const songsFavorite = favorite.songId;
-
     const mapSongWithFavorite = songs.map((song) => {
-      return songsFavorite.includes(song._id.toString())
+      return songsFavorite.includes(song._id.toString()) ||
+        songsFavorite.includes(song._id)
         ? { ...song, isLike: true }
         : { ...song, isLike: false };
     });
