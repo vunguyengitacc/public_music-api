@@ -14,13 +14,12 @@ const getAll = async (req, res, next) => {
       .lean();
 
     const favorite = await Favorite.findOne({ userId }).lean();
-    const songsFavorite = favorite.songId;
-    const mapSongWithFavorite = songs.map((song) => {
-      return songsFavorite.includes(song._id.toString()) ||
-        songsFavorite.includes(song._id)
+    const songsFavorite = favorite.songId.map((item) => item.toString());
+    const mapSongWithFavorite = songs.map((song) =>
+      songsFavorite.includes(song._id.toString())
         ? { ...song, isLike: true }
-        : { ...song, isLike: false };
-    });
+        : { ...song, isLike: false }
+    );
     return Result.success(res, { songs: mapSongWithFavorite });
   } catch (err) {
     next(err);
