@@ -16,7 +16,7 @@ const getMyFavorite = async (req, res, next) => {
         },
       })
       .lean();
-    if (favorite.length == 0) favorite = await Favorite.create({ userId });
+    if (favorite == null) favorite = await Favorite.create({ userId });
     return Result.success(res, { favorite });
   } catch (err) {
     next(err);
