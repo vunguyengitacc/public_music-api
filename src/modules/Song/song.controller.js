@@ -1,16 +1,26 @@
 import Result from "../../helpers/result.helper";
 import Album from "../Album/album.model";
 import Category from "../Category/category.model";
+import Favorite from "../Favorite/favorite.model";
 import Singer from "../Singer/singer.model";
 import Song from "./song.model";
 
 const getAll = async (req, res, next) => {
   try {
+    const { userId } = req.user._id;
     const songs = await Song.find()
       .populate("singer")
       .populate("category")
       .lean();
-    return Result.success(res, { songs });
+
+    const favorite = await Favorite.findOne({ userId }).lean();
+    const songsFavorite = favorite.songId;
+    const mapSongWithFavorite = songs.map((song) =>
+      songsFavorite.includes(song._id)
+        ? { ...song, isLike: true }
+        : { ...song, isLike: false }
+    );
+    return Result.success(res, { songs: mapSongWithFavorite });
   } catch (err) {
     next(err);
   }
