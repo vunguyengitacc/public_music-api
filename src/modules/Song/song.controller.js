@@ -15,6 +15,13 @@ const getAll = async (req, res, next) => {
       .lean();
 
     const favorite = await Favorite.findOne({ userId }).lean();
+    if (!favorite) {
+      const mapSongWithFavorite = songs.map((song) => ({
+        ...song,
+        isLike: false,
+      }));
+      return Result.success(res, { songs: mapSongWithFavorite });
+    }
     const songsFavorite = favorite.songId.map((item) => item.toString());
     const mapSongWithFavorite = songs.map((song) =>
       songsFavorite.includes(song._id.toString())
