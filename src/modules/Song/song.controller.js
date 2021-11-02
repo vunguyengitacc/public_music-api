@@ -11,6 +11,7 @@ const getAll = async (req, res, next) => {
     const songs = await Song.find()
       .populate("singer")
       .populate("category")
+      .sort({ updatedAt: -1 })
       .lean();
 
     const favorite = await Favorite.findOne({ userId }).lean();
