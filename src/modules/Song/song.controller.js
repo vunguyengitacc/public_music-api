@@ -8,7 +8,6 @@ import Song from "./song.model";
 const getAll = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    console.log(userId);
     const songs = await Song.find()
       .populate("singer")
       .populate("category")
@@ -16,11 +15,12 @@ const getAll = async (req, res, next) => {
 
     const favorite = await Favorite.findOne({ userId }).lean();
     const songsFavorite = favorite.songId;
-    const mapSongWithFavorite = songs.map((song) =>
-      songsFavorite.includes(song._id)
+
+    const mapSongWithFavorite = songs.map((song) => {
+      return songsFavorite.includes(song._id.toString())
         ? { ...song, isLike: true }
-        : { ...song, isLike: false }
-    );
+        : { ...song, isLike: false };
+    });
     return Result.success(res, { songs: mapSongWithFavorite });
   } catch (err) {
     next(err);
